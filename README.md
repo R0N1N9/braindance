@@ -35,8 +35,10 @@ warning (the certificate is self-signed).
 
 ## Install it as an app
 
-A production build (`npm run build`, then serve `dist/` from any static https
-host) can be installed from the browser's menu: **Install app** in Chrome or
+Every push to the default branch is built and published to GitHub Pages by
+`.github/workflows/pages.yml` (set **Settings → Pages → Source** to **GitHub
+Actions** once). The published site, or `dist/` served from any other https
+host, can be installed from the browser's menu: **Install app** in Chrome or
 Edge, **Add to Home Screen** on a phone. Once opened it also works offline.
 Recordings stay on the device; nothing is uploaded.
 
