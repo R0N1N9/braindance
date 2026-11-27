@@ -3,13 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#171118" />
+    <meta name="theme-color" content="#050203" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <title>Braindance</title>
   </head>
   <body>
+    <div class="fx-scan" aria-hidden="true"></div>
     <main id="home" class="home">
       <div class="home-text">
-        <h1>Braindance</h1>
+        <h1 class="brand">Brain<span>dance</span></h1>
         <p class="lede">
           Record a moment from your own point of view: what you saw and heard, where you looked, and how fast your
           heart was going. Then step back into it and take it apart.
@@ -22,13 +26,16 @@
         </div>
         <p id="home-status" class="status" role="status"></p>
       </div>
-      <ul class="tracks" aria-label="What a recording holds">
+      <section class="panel">
+        <h2 class="panel-title">What a recording holds</h2>
+      <ul class="tracks">
         <li class="t-sight"><b>Sight</b><span>Video from a phone, or a 360 camera for the full surround</span></li>
         <li class="t-sound"><b>Sound</b><span>The microphone, unprocessed</span></li>
         <li class="t-heat"><b>Heat</b><span>A thermal camera, or an estimate from brightness without one</span></li>
         <li class="t-pulse"><b>Pulse</b><span>Any Bluetooth heart-rate strap or watch</span></li>
         <li class="t-motion"><b>Head movement</b><span>Which way the camera was facing, from the motion sensors</span></li>
       </ul>
+      </section>
       <input id="open-file" type="file" accept=".bd,application/zip" hidden />
       <input id="import-file" type="file" accept="video/*" hidden />
       <input id="heat-file" type="file" accept="video/*" hidden />
@@ -46,7 +53,8 @@
 
     <main id="capture" class="capture" hidden>
       <video id="preview" muted playsinline autoplay></video>
-      <div class="capture-side">
+      <div class="capture-side panel">
+        <h2 class="panel-title">Senses</h2>
         <ul class="senses">
           <li class="t-sight"><b>Sight</b><span id="sense-sight">Waiting for the camera</span></li>
           <li class="t-sound"><b>Sound</b><span id="sense-sound">Waiting for the microphone</span></li>
@@ -67,6 +75,7 @@
 
     <main id="editor" class="editor" hidden>
       <header class="bar">
+        <span class="brand" aria-hidden="true">Brain<span>dance</span></span>
         <input id="title" aria-label="Recording title" spellcheck="false" />
         <div class="bar-actions">
           <button id="follow" type="button" aria-pressed="true" title="F">Follow the head</button>
@@ -77,8 +86,8 @@
         </div>
       </header>
       <div class="work">
-        <div id="viewport" class="viewport"></div>
-        <aside class="side">
+        <div id="viewport" class="viewport"><div id="view-tag" class="view-tag"></div></div>
+        <aside class="side panel">
           <dl class="readouts">
             <div><dt>Time</dt><dd id="r-time">0:00.0</dd></div>
             <div id="r-pulse-row"><dt>Pulse</dt><dd><span id="r-pulse">–</span> <small>bpm</small><i id="beat"></i></dd></div>
@@ -86,7 +95,7 @@
           </dl>
           <div class="markers">
             <div class="markers-head">
-              <h2>Markers</h2>
+              <h2 class="panel-title">Markers</h2>
               <button id="add-marker" type="button" title="M">Mark this moment</button>
             </div>
             <p id="no-markers" class="hint">
@@ -96,7 +105,7 @@
           </div>
         </aside>
       </div>
-      <footer class="deck">
+      <footer class="deck panel">
         <div class="transport">
           <button id="play" type="button" class="primary">Play</button>
           <label>Speed

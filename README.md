@@ -33,6 +33,18 @@ npm run dev:phone
 Open the `https://…` network address on the device and accept the certificate
 warning (the certificate is self-signed).
 
+## Install it as an app
+
+A production build (`npm run build`, then serve `dist/` from any static https
+host) can be installed from the browser's menu: **Install app** in Chrome or
+Edge, **Add to Home Screen** on a phone. Once opened it also works offline.
+Recordings stay on the device; nothing is uploaded.
+
+## Look
+
+The interface uses the scanner-HUD skin from the NetWatch console: the same
+palette, Rajdhani type and cut-corner panels, with one colour per sense.
+
 ## What to use each device for
 
 | Device | Use |

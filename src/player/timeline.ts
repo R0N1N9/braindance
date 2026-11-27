@@ -80,11 +80,9 @@ export class Timeline {
     root.append(labels, this.canvas);
 
     const css = getComputedStyle(document.documentElement);
-    for (const name of ['ink', 'panel', 'line', 'bone', 'dim', 'sound', 'heat', 'pulse']) {
+    for (const name of ['ink', 'dim', 'amber', 'sight', 'sound', 'heat', 'pulse', 'motion']) {
       this.colors[name] = css.getPropertyValue(`--${name}`).trim();
     }
-    this.colors.sight = this.colors.bone;
-    this.colors.motion = this.colors.dim;
 
     let scrubbing = false;
     const seekTo = (e: PointerEvent) => {
@@ -148,7 +146,7 @@ export class Timeline {
     // Ruler: a tick each second or so, labelled every few.
     const step = [0.5, 1, 2, 5, 10, 30, 60, 300, 600].find((s) => (s / d) * w >= 56) ?? 600;
     ctx.fillStyle = colors.dim;
-    ctx.font = '11px "Instrument Sans Variable", sans-serif';
+    ctx.font = '11px ui-monospace, "DejaVu Sans Mono", Menlo, monospace';
     ctx.textBaseline = 'middle';
     for (let s = 0; s <= d; s += step) {
       ctx.fillRect(Math.round(x(s)), RULER - 5, 1, 5);
@@ -159,7 +157,7 @@ export class Timeline {
       const top = RULER + i * LANE;
       const color = colors[lane.key];
       const active = lane.key === this.layer;
-      ctx.globalAlpha = active ? 0.2 : 0.06;
+      ctx.globalAlpha = active ? 0.22 : 0.07;
       ctx.fillStyle = color;
       ctx.fillRect(0, top + 1, w, LANE - 2);
       ctx.globalAlpha = active ? 1 : 0.6;
@@ -213,8 +211,11 @@ export class Timeline {
     });
 
     const px = Math.round(x(Math.min(t, d)));
-    ctx.fillStyle = colors.bone;
+    ctx.fillStyle = colors.amber;
+    ctx.shadowColor = colors.amber;
+    ctx.shadowBlur = 8;
     ctx.fillRect(Math.min(w - 2, px), 0, 2, h);
+    ctx.shadowBlur = 0;
     this.canvas.setAttribute('aria-valuenow', t.toFixed(1));
     this.canvas.setAttribute('aria-valuetext', clock(t));
   }

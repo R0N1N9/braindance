@@ -1,5 +1,6 @@
-import '@fontsource-variable/bricolage-grotesque/wdth.css';
-import '@fontsource-variable/instrument-sans';
+import '@fontsource/rajdhani/latin-500.css';
+import '@fontsource/rajdhani/latin-600.css';
+import '@fontsource/rajdhani/latin-700.css';
 import './style.css';
 
 import { newId, pack, sensor, unpack, type Layer, type Marker, type Projection, type Recording } from './format/bd';
@@ -194,6 +195,12 @@ function closeCapture(): void {
 $('capture-close').addEventListener('click', () => {
   closeCapture();
   show('home');
+
+// Offline use and installing to a home screen. Left off in development so a
+// stale copy never hides an edit.
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  void navigator.serviceWorker.register('sw.js').catch(() => {});
+}
 });
 
 // ---------------------------------------------------------------- Editor
@@ -238,6 +245,7 @@ function openEditor(rec: Recording): void {
     onLayer: setLayer,
   });
   editor = { rec, stage, sound, timeline, layer: 'sight' };
+  setLayer('sight');
   updateHeatNote();
 
   const main = rec.media.get(stage.track.file)!;
@@ -303,6 +311,14 @@ function setLayer(layer: Layer): void {
   editor.layer = layer;
   editor.stage.layer = layer;
   editor.timeline.setLayer(layer);
+  const tag = $('view-tag');
+  tag.textContent = `Braindance · ${layer}`;
+  tag.style.setProperty('--c', `var(--${layer})`);
+  // A short tear in the picture when the layer changes.
+  const viewport = $('viewport');
+  viewport.classList.remove('glitch');
+  void viewport.offsetWidth;
+  viewport.classList.add('glitch');
 }
 
 function updateHeatNote(): void {
@@ -443,6 +459,12 @@ $('save').addEventListener('click', async () => {
 $('close').addEventListener('click', () => {
   closeEditor();
   show('home');
+
+// Offline use and installing to a home screen. Left off in development so a
+// stale copy never hides an edit.
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  void navigator.serviceWorker.register('sw.js').catch(() => {});
+}
 });
 
 document.addEventListener('keydown', (e) => {
@@ -475,3 +497,9 @@ document.addEventListener('keydown', (e) => {
 });
 
 show('home');
+
+// Offline use and installing to a home screen. Left off in development so a
+// stale copy never hides an edit.
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  void navigator.serviceWorker.register('sw.js').catch(() => {});
+}

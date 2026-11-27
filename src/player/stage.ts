@@ -70,7 +70,7 @@ const FRAGMENT = /* glsl */ `
       float gx = luma(texture2D(map, vUv + vec2(texel.x, 0.0)).rgb) - luma(texture2D(map, vUv - vec2(texel.x, 0.0)).rgb);
       float gy = luma(texture2D(map, vUv + vec2(0.0, texel.y)).rgb) - luma(texture2D(map, vUv - vec2(0.0, texel.y)).rgb);
       float edge = clamp(length(vec2(gx, gy)) * 6.0, 0.0, 1.0);
-      vec3 teal = vec3(0.31, 0.76, 0.69);
+      vec3 teal = vec3(0.11, 1.0, 0.63);
       c = vec3(luma(c)) * 0.22 + teal * edge * (0.45 + loudness * 1.6);
     } else if (layer == 2) {
       c = hasHeat ? texture2D(heatMap, vUv).rgb : ember(smoothstep(0.08, 0.95, luma(c)));
@@ -129,7 +129,7 @@ export class Stage {
 
     this.renderer = new WebGLRenderer({ antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.renderer.setClearColor(0x120e13);
+    this.renderer.setClearColor(0x02060a);
     this.renderer.xr.enabled = true;
     host.appendChild(this.renderer.domElement);
 
@@ -355,7 +355,7 @@ export class Stage {
     while (this.rings.length < near.length) {
       const ring = new Mesh(
         new RingGeometry(0.42, 0.5, 48),
-        new MeshBasicMaterial({ color: 0xe9e2d6, transparent: true, side: DoubleSide, depthTest: false }),
+        new MeshBasicMaterial({ color: 0xfcee0a, transparent: true, side: DoubleSide, depthTest: false }),
       );
       ring.renderOrder = 2;
       this.rings.push(ring);
@@ -474,5 +474,5 @@ function makeGrid(): LineSegments {
   }
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new Float32BufferAttribute(points, 3));
-  return new LineSegments(geometry, new LineBasicMaterial({ color: 0xe9e2d6, transparent: true, opacity: 0.1 }));
+  return new LineSegments(geometry, new LineBasicMaterial({ color: 0x5ef6ff, transparent: true, opacity: 0.16 }));
 }
