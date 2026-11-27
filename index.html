@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#171118" />
+    <title>Braindance</title>
+  </head>
+  <body>
+    <main id="home" class="home">
+      <div class="home-text">
+        <h1>Braindance</h1>
+        <p class="lede">
+          Record a moment from your own point of view: what you saw and heard, where you looked, and how fast your
+          heart was going. Then step back into it and take it apart.
+        </p>
+        <div class="actions">
+          <button id="go-record" class="primary" type="button">Record with this device</button>
+          <button id="go-open" type="button">Open a recording</button>
+          <button id="go-import" type="button">Import a video</button>
+          <button id="go-demo" type="button">Try the demo recording</button>
+        </div>
+        <p id="home-status" class="status" role="status"></p>
+      </div>
+      <ul class="tracks" aria-label="What a recording holds">
+        <li class="t-sight"><b>Sight</b><span>Video from a phone, or a 360 camera for the full surround</span></li>
+        <li class="t-sound"><b>Sound</b><span>The microphone, unprocessed</span></li>
+        <li class="t-heat"><b>Heat</b><span>A thermal camera, or an estimate from brightness without one</span></li>
+        <li class="t-pulse"><b>Pulse</b><span>Any Bluetooth heart-rate strap or watch</span></li>
+        <li class="t-motion"><b>Head movement</b><span>Which way the camera was facing, from the motion sensors</span></li>
+      </ul>
+      <input id="open-file" type="file" accept=".bd,application/zip" hidden />
+      <input id="import-file" type="file" accept="video/*" hidden />
+      <input id="heat-file" type="file" accept="video/*" hidden />
+      <dialog id="import-dialog">
+        <h2>What kind of video is this?</h2>
+        <p id="import-name"></p>
+        <div class="actions">
+          <button id="import-flat" type="button">An ordinary video</button>
+          <button id="import-360" type="button">A 360 video</button>
+          <button id="import-cancel" type="button" class="quiet">Cancel</button>
+        </div>
+        <p class="hint">360 videos must be exported in the equirectangular (2:1) layout.</p>
+      </dialog>
+    </main>
+
+    <main id="capture" class="capture" hidden>
+      <video id="preview" muted playsinline autoplay></video>
+      <div class="capture-side">
+        <ul class="senses">
+          <li class="t-sight"><b>Sight</b><span id="sense-sight">Waiting for the camera</span></li>
+          <li class="t-sound"><b>Sound</b><span id="sense-sound">Waiting for the microphone</span></li>
+          <li class="t-motion"><b>Head movement</b><span id="sense-motion">Starts with the recording</span></li>
+          <li class="t-pulse">
+            <b>Pulse</b><span id="sense-pulse">No sensor connected</span>
+            <button id="connect-pulse" type="button">Connect a heart-rate sensor</button>
+          </li>
+        </ul>
+        <p id="capture-status" class="status" role="status"></p>
+        <div class="capture-controls">
+          <button id="rec-toggle" class="primary" type="button" disabled>Start recording</button>
+          <output id="rec-time">0:00</output>
+          <button id="capture-close" type="button" class="quiet">Back</button>
+        </div>
+      </div>
+    </main>
+
+    <main id="editor" class="editor" hidden>
+      <header class="bar">
+        <input id="title" aria-label="Recording title" spellcheck="false" />
+        <div class="bar-actions">
+          <button id="follow" type="button" aria-pressed="true" title="F">Follow the head</button>
+          <button id="pulse-sound" type="button" aria-pressed="true">Play the pulse</button>
+          <button id="add-heat" type="button">Add a thermal video</button>
+          <button id="save" type="button" class="primary">Save recording</button>
+          <button id="close" type="button" class="quiet">Close</button>
+        </div>
+      </header>
+      <div class="work">
+        <div id="viewport" class="viewport"></div>
+        <aside class="side">
+          <dl class="readouts">
+            <div><dt>Time</dt><dd id="r-time">0:00.0</dd></div>
+            <div id="r-pulse-row"><dt>Pulse</dt><dd><span id="r-pulse">–</span> <small>bpm</small><i id="beat"></i></dd></div>
+            <div id="r-turn-row"><dt>Head turning</dt><dd><span id="r-turn">–</span> <small>°/s</small></dd></div>
+          </dl>
+          <div class="markers">
+            <div class="markers-head">
+              <h2>Markers</h2>
+              <button id="add-marker" type="button" title="M">Mark this moment</button>
+            </div>
+            <p id="no-markers" class="hint">
+              Nothing marked yet. Pause on a moment worth keeping and mark it; markers are saved with the recording.
+            </p>
+            <ol id="marker-list"></ol>
+          </div>
+        </aside>
+      </div>
+      <footer class="deck">
+        <div class="transport">
+          <button id="play" type="button" class="primary">Play</button>
+          <label>Speed
+            <select id="speed">
+              <option value="0.25">¼×</option>
+              <option value="0.5">½×</option>
+              <option value="1" selected>1×</option>
+              <option value="2">2×</option>
+            </select>
+          </label>
+          <p id="editor-status" class="status" role="status"></p>
+        </div>
+        <div id="timeline"></div>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
